@@ -1,7 +1,3 @@
-import string
-from collections import defaultdict
-import re
-
 from common import get_input
 
 # output = get_input(7)
@@ -30,16 +26,17 @@ $ ls
 7214296 k"""
 INPUT_CHAR = "$"
 
+
 class node:
     def __init__(self, name, parent_node, size=0):
         self.name = name
-        self.size = int(size)
+        self.file_size = int(size)
         self.parent = parent_node
         self.contents = []
 
     def get_size(self):
         if len(self.contents) == 0:
-            return self.size
+            return self.file_size
 
         return sum(node.get_size() for node in self.contents)
 
@@ -70,5 +67,14 @@ def build_tree(output):
 
 
 root = build_tree(output)
-print(root.get_size())
+candidates = []
+def recurse(node):
+    if len(node.contents) == 0:
+        return
+    if node.get_size() <= 100000:
+        candidates.append(node)
+    for n in node.contents:
+        recurse(n)
+recurse(root)
+print([c.name for c in candidates])
 
