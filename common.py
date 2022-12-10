@@ -35,7 +35,7 @@ def render_grid(grid, colour_dict):
     for row in grid:
         for char in row:
             if char in colour_dict:
-                print(colour_dict[char] + char + colorama.Style.RESET_ALL, end='')
+                print(colour_dict[char] + str(char) + colorama.Style.RESET_ALL, end='')
             else:
                 print(char, end='')
         print('\n', end='')
