@@ -1,4 +1,6 @@
-from common import get_input, bcolors, get_new_grid
+import colorama
+
+from common import get_input, get_new_grid, render_grid
 
 # instructions = get_input(9)
 instructions = """R 5
@@ -54,25 +56,29 @@ def follow(positions, curr):
     follow(positions, curr + 1)
 
 
-
-SIZE = 26
+HEIGHT = 18
+WIDTH = 24
 start = 12, 12
 positions = [start] * 10
 tail_positions = {positions[-1]}
 
+def draw_grid(positions, tail_positions):
+    DEFAULT_CHAR = '.'
+    colours = {
+        '.': colorama.Fore.BLUE,
+        '#': colorama.Fore.LIGHTYELLOW_EX,
+        'H': colorama.Fore.LIGHTRED_EX
+    }
+    for i in range(10):
+        colours[i] = colorama.Fore.LIGHTYELLOW_EX
 
-def draw_map(positions, tail_positions):
-    grid = get_new_grid(SIZE)
-    grid[start[0]][start[1]] = "s"
+    grid = get_new_grid(width=WIDTH, height=HEIGHT, default=DEFAULT_CHAR)
     for tail_position in tail_positions:
-        grid[tail_position[0]][tail_position[1]] = f"{bcolors.WARNING}#{bcolors.OKGREEN}"
+        grid[tail_position[0]][tail_position[1]] = '#'
     for node in range(len(positions)):
         x, y = positions[node]
         grid[x][y] = node if node != 0 else 'H'
-    print("----")
-    for l in grid:
-        print(''.join([str(s) for s in l]))
-
+    render_grid(grid, colours)
 
 for instruction in instructions.split('\n'):
     direction, num = instruction.split()[0], int(instruction.split()[1])
@@ -80,5 +86,5 @@ for instruction in instructions.split('\n'):
         positions = move_head(direction, positions)
         follow(positions, 1)
         tail_positions.add(positions[-1])
-draw_map(positions, tail_positions)
+draw_grid(positions, tail_positions)
 print(len(tail_positions))
