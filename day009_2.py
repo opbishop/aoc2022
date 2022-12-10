@@ -62,23 +62,25 @@ start = 12, 12
 positions = [start] * 10
 tail_positions = {positions[-1]}
 
-def draw_grid(positions, tail_positions):
-    DEFAULT_CHAR = '.'
-    colours = {
-        '.': colorama.Fore.BLUE,
-        '#': colorama.Fore.LIGHTYELLOW_EX,
-        'H': colorama.Fore.LIGHTRED_EX
-    }
-    for i in range(10):
-        colours[i] = colorama.Fore.LIGHTYELLOW_EX
+DEFAULT_CHAR = '.'
+colours = {
+    '.': colorama.Fore.BLUE,
+    '#': colorama.Fore.LIGHTYELLOW_EX,
+    'H': colorama.Fore.LIGHTRED_EX
+}
+for i in range(10):
+    colours[i] = colorama.Fore.LIGHTYELLOW_EX
 
+
+def draw_grid(snake_positions, snake_tail_visited_positions):
     grid = get_new_grid(width=WIDTH, height=HEIGHT, default=DEFAULT_CHAR)
-    for tail_position in tail_positions:
+    for tail_position in snake_tail_visited_positions:
         grid[tail_position[0]][tail_position[1]] = '#'
-    for node in range(len(positions)):
-        x, y = positions[node]
+    for node in range(len(snake_positions)):
+        x, y = snake_positions[node]
         grid[x][y] = node if node != 0 else 'H'
     render_grid(grid, colours)
+
 
 for instruction in instructions.split('\n'):
     direction, num = instruction.split()[0], int(instruction.split()[1])
