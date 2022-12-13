@@ -1,12 +1,7 @@
-import math
-import re
 import string
 import sys
 
-import colorama
-
-from common import get_input, get_new_grid, render_grid
-from collections import defaultdict
+from common import get_input, get_new_grid
 
 puzzle_input = get_input(12)
 
