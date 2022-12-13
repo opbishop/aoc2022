@@ -8,36 +8,10 @@ import colorama
 from common import get_input, get_new_grid, render_grid
 from collections import defaultdict
 
+from day013_1 import compare
+
 puzzle_input = get_input(13)
 puzzle_input = puzzle_input.split('\n\n')
-
-
-def compare(left, right):
-    if type(left) == int and type(right) == list:
-        return compare([left], right)
-    elif type(left) == list and type(right) == int:
-        return compare(left, [right])
-    elif type(left) == int and type(right) == int:
-        if left < right:
-            return True
-        elif right < left:
-            return False
-    elif type(left) == list and type(right) == list:
-        if len(left) == 0 and len(right) != 0:
-            return True
-        elif len(right) == 0 and len(left) != 0:
-            return False
-
-        for pair in zip(left, right):
-            result = compare(pair[0], pair[1])
-            if result is None:
-                continue
-            else:
-                return result
-        if len(right) < len(left):
-            return False
-        elif len(right) > len(left):
-            return True
 
 
 total_sorted = []

@@ -51,8 +51,10 @@ def find_shortest_path(grid, position, visited, shortest_path=sys.maxsize):
     this = grid[position[0]][position[1]]
     visited.add(position)
     if this == END_CHAR:
+        shortest_path = min(len(visited), int(shortest_path))
         visited.remove(position)
-        return min(len(visited), int(shortest_path))
+        print(f"New shortest path is {shortest_path}")
+        return shortest_path
     else:
         queue = get_valid_moves_from_cell(grid, position, visited)
         for move in queue:
